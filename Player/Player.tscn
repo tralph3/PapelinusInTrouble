@@ -28,3 +28,9 @@ texture = ExtResource("2_rs4ks")
 
 [node name="Uretra" type="Marker2D" parent="."]
 position = Vector2(0, -40)
+
+[node name="ShotCooldown" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.4
+
+[connection signal="timeout" from="ShotCooldown" to="." method="reset_can_shoot"]

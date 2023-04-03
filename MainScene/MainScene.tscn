@@ -1,12 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://rt6ihis2qrb7"]
 
+[ext_resource type="Script" path="res://MainScene/MainScene.gd" id="1_gibei"]
 [ext_resource type="Texture2D" uid="uid://djd11vwyvtd24" path="res://MainScene/Background.jpg" id="1_j5ubr"]
 [ext_resource type="PackedScene" uid="uid://c271kwyrgj55y" path="res://Player/Player.tscn" id="2_h85fu"]
-[ext_resource type="PackedScene" uid="uid://bcp514j4gnjgn" path="res://Asteroid/Asteroid.tscn" id="3_u7tsl"]
 
 [node name="MainScene" type="Node2D"]
+script = ExtResource("1_gibei")
 
 [node name="Background" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(576, 322.75)
 scale = Vector2(1.125, 1.1819)
 texture = ExtResource("1_j5ubr")
@@ -14,5 +16,9 @@ texture = ExtResource("1_j5ubr")
 [node name="Player" parent="." instance=ExtResource("2_h85fu")]
 position = Vector2(556, 201)
 
-[node name="Asteroid" parent="." instance=ExtResource("3_u7tsl")]
-position = Vector2(524, 320)
+[node name="SpawnTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="spawn_asteroid"]
