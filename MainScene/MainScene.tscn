@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://rt6ihis2qrb7"]
+[gd_scene load_steps=4 format=3 uid="uid://rt6ihis2qrb7"]
 
 [ext_resource type="Texture2D" uid="uid://djd11vwyvtd24" path="res://MainScene/Background.jpg" id="1_j5ubr"]
 [ext_resource type="PackedScene" uid="uid://c271kwyrgj55y" path="res://Player/Player.tscn" id="2_h85fu"]
+[ext_resource type="PackedScene" uid="uid://bcp514j4gnjgn" path="res://Asteroid/Asteroid.tscn" id="3_u7tsl"]
 
 [node name="MainScene" type="Node2D"]
 
@@ -12,3 +13,6 @@ texture = ExtResource("1_j5ubr")
 
 [node name="Player" parent="." instance=ExtResource("2_h85fu")]
 position = Vector2(556, 201)
+
+[node name="Asteroid" parent="." instance=ExtResource("3_u7tsl")]
+position = Vector2(524, 320)
