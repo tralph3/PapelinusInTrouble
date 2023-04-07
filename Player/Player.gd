@@ -26,7 +26,7 @@ func handle_movement(delta):
 	movement_direction = Vector2(cos(rotation - PI/2), sin(rotation - PI/2))
 	current_speed = apply_throttle(throttle)
 	movement_direction *= current_speed * delta
-	move_and_collide(movement_direction)
+	check_collision(move_and_collide(movement_direction))
 
 func handle_shoot():
 	if Input.is_action_just_pressed("shoot") and can_shoot:
@@ -64,3 +64,12 @@ func get_random_death_position():
 
 	return Vector2(x, y).normalized() + position
 
+func check_collision(collision: KinematicCollision2D):
+	if not collision:
+		return
+	var node = collision.get_collider()
+	if node.is_in_group("asteroids"):
+		morir()
+
+func morir():
+	$Sprite2D.modulate = Color(1,1,1,0.3)

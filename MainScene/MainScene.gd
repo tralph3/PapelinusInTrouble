@@ -6,6 +6,7 @@ extends Node2D
 func spawn_asteroid():
 	var death_point = $Player.get_random_death_position()
 	var instance = ASTEROID.instantiate()
+	instance.add_to_group("asteroids")
 	print("Generated: %s" % death_point)
 	add_child(instance)
 	var x_pos = randi_range(-200, get_viewport_rect().size.x)
