@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcp514j4gnjgn"]
+[gd_scene load_steps=4 format=3 uid="uid://bcp514j4gnjgn"]
 
 [ext_resource type="Texture2D" uid="uid://ccsga8issks1v" path="res://Asteroid/asteroid.png" id="1_otdn5"]
+[ext_resource type="Script" path="res://Asteroid/Asteroid.gd" id="1_pbhxd"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qds4c"]
 radius = 22.9972
@@ -8,6 +9,7 @@ height = 96.5381
 
 [node name="Asteroid" type="RigidBody2D"]
 gravity_scale = 0.0
+script = ExtResource("1_pbhxd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)

@@ -56,3 +56,11 @@ func shoot():
 	get_parent().add_child(shot)
 	shot.position = $Uretra.global_position
 	shot.rotation = global_rotation
+
+func get_random_death_position():
+	var circle = $DeathAura/CollisionShape2D.shape
+	var x = randf_range(-circle.radius, circle.radius)
+	var y = randf_range(-circle.radius, circle.radius)
+
+	return Vector2(x, y).normalized() + position
+
