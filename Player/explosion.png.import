@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djd11vwyvtd24"
-path="res://.godot/imported/Background.jpg-f71d1122fd09ec21f2d4f9ceb1197c12.ctex"
+uid="uid://bfii6ppstgrw4"
+path="res://.godot/imported/explosion.png-99887072f1730448704d540e3f90afef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MainScene/Background.jpg"
-dest_files=["res://.godot/imported/Background.jpg-f71d1122fd09ec21f2d4f9ceb1197c12.ctex"]
+source_file="res://Player/explosion.png"
+dest_files=["res://.godot/imported/explosion.png-99887072f1730448704d540e3f90afef.ctex"]
 
 [params]
 

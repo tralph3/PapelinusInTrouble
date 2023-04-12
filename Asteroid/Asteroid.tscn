@@ -1,7 +1,9 @@
-[gd_scene load_steps=89 format=3 uid="uid://bcp514j4gnjgn"]
+[gd_scene load_steps=91 format=3 uid="uid://bcp514j4gnjgn"]
 
 [ext_resource type="Script" path="res://Asteroid/Asteroid.gd" id="1_pbhxd"]
+[ext_resource type="Texture2D" uid="uid://ccsga8issks1v" path="res://Asteroid/asteroid.png" id="3_50gwh"]
 [ext_resource type="Texture2D" uid="uid://bp0m2ey4s7ilm" path="res://Asteroid/explosion_frames.png" id="3_q438p"]
+[ext_resource type="AudioStream" uid="uid://dxpocdvxys7pb" path="res://Asteroid/asteroid_explosion.wav" id="4_8j1ja"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0wxxt"]
 atlas = ExtResource("3_q438p")
@@ -573,29 +575,22 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gpmam")
 }],
-"loop": true,
+"loop": false,
 "name": &"explosion",
 "speed": 45.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_50gwh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qds4c"]
 radius = 22.9972
 height = 96.5381
-
-[sub_resource type="Animation" id="Animation_gtbeo"]
-resource_name = "explode"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.9),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [&"explosion", &"explosion", &"explosion"]
-}
 
 [sub_resource type="Animation" id="Animation_34hg8"]
 length = 0.001
@@ -612,6 +607,21 @@ tracks/0/keys = {
 "values": [&"default"]
 }
 
+[sub_resource type="Animation" id="Animation_gtbeo"]
+resource_name = "explode"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [&"explosion", &"explosion", &"explosion"]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mipnm"]
 _data = {
 "RESET": SubResource("Animation_34hg8"),
@@ -623,7 +633,8 @@ gravity_scale = 0.0
 script = ExtResource("1_pbhxd")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
+position = Vector2(-4.76837e-07, -4.76837e-07)
+scale = Vector2(0.0910742, 0.0910742)
 sprite_frames = SubResource("SpriteFrames_ut8lh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -635,3 +646,6 @@ shape = SubResource("CapsuleShape2D_qds4c")
 libraries = {
 "": SubResource("AnimationLibrary_mipnm")
 }
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_8j1ja")

@@ -12,5 +12,5 @@ func _physics_process(delta):
 
 
 func _on_body_entered(body):
-	body.queue_free()
+	body.explode()
 	queue_free()

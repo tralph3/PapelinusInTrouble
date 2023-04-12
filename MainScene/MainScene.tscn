@@ -1,16 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://rt6ihis2qrb7"]
+[gd_scene load_steps=6 format=3 uid="uid://rt6ihis2qrb7"]
 
 [ext_resource type="Script" path="res://MainScene/MainScene.gd" id="1_gibei"]
-[ext_resource type="Texture2D" uid="uid://djd11vwyvtd24" path="res://MainScene/Background.jpg" id="1_j5ubr"]
+[ext_resource type="Texture2D" uid="uid://com7xpkj07eyu" path="res://MainScene/background.jpg" id="2_gxlxr"]
 [ext_resource type="PackedScene" uid="uid://c271kwyrgj55y" path="res://Player/Player.tscn" id="2_h85fu"]
+[ext_resource type="Texture2D" uid="uid://bv3h5jhhdh423" path="res://MainScene/game_over.png" id="4_bti8q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hwuna"]
+size = Vector2(4516, 2968)
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_gibei")
+metadata/_edit_vertical_guides_ = [-474.0, 70.0, 4589.0]
+metadata/_edit_horizontal_guides_ = [-1792.0, 1182.0]
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(576, 322.75)
-scale = Vector2(1.125, 1.1819)
-texture = ExtResource("1_j5ubr")
+position = Vector2(1798.67, -357)
+scale = Vector2(2.79722, 2.79722)
+texture = ExtResource("2_gxlxr")
+region_rect = Rect2(570, 181.5, 350, 269)
 
 [node name="Player" parent="." instance=ExtResource("2_h85fu")]
 position = Vector2(556, 201)
@@ -19,5 +26,21 @@ position = Vector2(556, 201)
 process_callback = 0
 wait_time = 3.0
 autostart = true
+
+[node name="GameOverBanner" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_bti8q")
+
+[node name="PlayerSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(754, 195)
+
+[node name="PlayableArea" type="Area2D" parent="."]
+position = Vector2(-321, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayableArea"]
+position = Vector2(2329, -306)
+shape = SubResource("RectangleShape2D_hwuna")
+disabled = true
+debug_color = Color(0, 0.6, 0.701961, 0.0431373)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="spawn_asteroid"]

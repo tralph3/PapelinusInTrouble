@@ -10,9 +10,16 @@ extends CharacterBody2D
 var current_speed = 0.0
 var movement_direction = Vector2(cos(rotation - PI/2), sin(rotation - PI/2))
 var can_shoot = true
+var dead = false
+
+signal died
+
+func _ready():
+	$Sprite2D.play("idle")
 
 func _physics_process(delta):
-	handle_input(delta)
+	if not dead:
+		handle_input(delta)
 
 func handle_input(delta):
 	handle_movement(delta)
@@ -72,4 +79,18 @@ func check_collision(collision: KinematicCollision2D):
 		morir()
 
 func morir():
-	$Sprite2D.modulate = Color(1,1,1,0.3)
+	emit_signal("died")
+	$Hitbox.set_deferred("disabled", true)
+	$HitboxParte2.set_deferred("disabled", true)
+	dead = true
+	$Sprite2D.set_scale(Vector2(1, 1))
+	$Sprite2D.play("explosion")
+	$Sprite2D.connect("animation_finished", $Sprite2D.hide)
+
+func revivir():
+	$Hitbox.set_deferred("disabled", false)
+	$HitboxParte2.set_deferred("disabled", false)
+	dead = false
+	$Sprite2D.set_scale(Vector2(0.05, 0.05))
+	$Sprite2D.play("idle")
+	$Sprite2D.show()
