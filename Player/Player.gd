@@ -85,6 +85,7 @@ func morir():
 	dead = true
 	$Sprite2D.set_scale(Vector2(1, 1))
 	$Sprite2D.play("explosion")
+	$AudioStreamPlayer2D.play()
 	$Sprite2D.connect("animation_finished", $Sprite2D.hide)
 
 func revivir():

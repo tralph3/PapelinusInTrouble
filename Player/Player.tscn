@@ -1,8 +1,9 @@
-[gd_scene load_steps=42 format=3 uid="uid://c271kwyrgj55y"]
+[gd_scene load_steps=44 format=3 uid="uid://c271kwyrgj55y"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_p4tlq"]
 [ext_resource type="Texture2D" uid="uid://bfii6ppstgrw4" path="res://Player/explosion.png" id="2_t1doj"]
 [ext_resource type="Texture2D" uid="uid://dp1jhsdlaxqs4" path="res://Player/level1.png" id="3_rwnxo"]
+[ext_resource type="AudioStream" uid="uid://pjvjc7mlpctc" path="res://Player/la_muerte.wav" id="4_bnv8g"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4odje"]
 height = 20.0
@@ -147,6 +148,10 @@ region = Rect2(0, 1024, 256, 256)
 atlas = ExtResource("2_t1doj")
 region = Rect2(256, 1024, 256, 256)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7r6th"]
+atlas = ExtResource("2_t1doj")
+region = Rect2(768, 1024, 256, 256)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_fvx5u"]
 animations = [{
 "frames": [{
@@ -257,6 +262,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wcb6x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7r6th")
 }],
 "loop": false,
 "name": &"explosion",
@@ -311,5 +319,8 @@ drag_left_margin = 0.4
 drag_top_margin = 0.4
 drag_right_margin = 0.4
 drag_bottom_margin = 0.4
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_bnv8g")
 
 [connection signal="timeout" from="ShotCooldown" to="." method="reset_can_shoot"]
