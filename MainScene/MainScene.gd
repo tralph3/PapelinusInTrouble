@@ -7,6 +7,7 @@ var game_over = false
 
 func _ready():
 	$Player.connect("died", finish_game)
+	$SpawnTimer.connect("timeout", spawn_asteroid)
 
 func finish_game():
 	game_over = true
@@ -40,26 +41,38 @@ func restart_game():
 	$Player.revivir()
 	$Player.position = $PlayerSpawnPoint.position
 
-func spawn_asteroid():
+func spawn_asteroid(level=1):
 	if game_over:
 		return
 	var death_point = $Player.get_random_death_position()
+	var asteroid = instance_asteroid()
+	
+
+func instance_asteroid(asteroid_position):
 	var instance = ASTEROID.instantiate()
 	instance.add_to_group("asteroids")
-	add_child(instance)
-	var x_pos = randi_range(-200, get_viewport_rect().size.x)
-	var y_pos = randi_range(-200, get_viewport_rect().size.y)
+	instance.connect("spawn_child_asteroids", spawn_child_asteroids)
 	instance.position = get_asteroid_spawn_pos()
-	instance.init(death_point)
+	return instance
+
+func spawn_child_asteroids(level, asteroid_position):
+	spawn_asteroid(level - 1)
 
 func get_asteroid_spawn_pos():
 	var resulting_position = Vector2.ZERO
 	var viewport_x = get_viewport_rect().size.x
 	var viewport_y = get_viewport_rect().size.y
-	var x1 = randi_range(-OFFSCREEN_OFFSET, 0)
-	var x2 = randi_range(viewport_x, viewport_x + OFFSCREEN_OFFSET)
-	var y1 = randi_range(-OFFSCREEN_OFFSET, 0)
-	var y2 = randi_range(viewport_y, viewport_y + OFFSCREEN_OFFSET)
+	
+	var camera_center = $Player/Camera2D.get_screen_center_position()
+	var left_margin = camera_center.x - viewport_x / 2
+	var right_margin = camera_center.x + viewport_x / 2
+	var top_margin = camera_center.y - viewport_y / 2
+	var bottom_margin = camera_center.y + viewport_y / 2
+	
+	var x1 = randi_range(left_margin - OFFSCREEN_OFFSET, left_margin)
+	var x2 = randi_range(right_margin, right_margin + OFFSCREEN_OFFSET)
+	var y1 = randi_range(top_margin - OFFSCREEN_OFFSET, top_margin)
+	var y2 = randi_range(bottom_margin, bottom_margin + OFFSCREEN_OFFSET)
 	if randi() % 2 == 0:
 		resulting_position.x = x1
 	else:

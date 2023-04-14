@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var ROTATION_SPEED = 2.0
+@export var ROTATION_SPEED = 3.0
 @export var MAX_SPEED = 500.0
 @export var FRICTION = 0.05
 @export var ACCELERATION = 0.02
@@ -59,10 +59,10 @@ func shoot():
 	if not MUNITION:
 		return
 	var shot = MUNITION.instantiate()
-	shot.owner = get_parent()
-	get_parent().add_child(shot)
+	shot.add_to_group("bullet")
 	shot.position = $Uretra.global_position
 	shot.rotation = global_rotation
+	get_parent().add_child(shot)
 
 func get_random_death_position():
 	var circle = $DeathAura/CollisionShape2D.shape

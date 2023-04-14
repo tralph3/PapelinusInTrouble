@@ -20,6 +20,3 @@ scale = Vector2(0.03, 0.03)
 texture = ExtResource("1_dwuyk")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="delete"]
