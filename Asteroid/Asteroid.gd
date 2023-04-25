@@ -1,16 +1,10 @@
-extends "res://libs/Proyectil.gd"
+extends RigidBody2D
 
-var SIZES = [0.5, 1]
-var level = -1
+var FORCE = 300.0
 
-signal spawn_child_asteroids(level, position)
-
-func init(death_point, level):
+func init(death_point):
 	var direction_vector = position.direction_to(death_point)
 	$Sprite2D.play("idle")
-	level = level
-	var size = SIZES[level]
-	set_scale(Vector2(size, size))
 	apply_impulse(direction_vector * FORCE)
 
 func explode():
@@ -26,6 +20,4 @@ func _on_area_2d_area_entered(area):
 	if not area.is_in_group("bullet"):
 		return
 	area.queue_free()
-	if level > 0:
-		emit_signal("spawn_child_asteroids", level, position)
 	explode()

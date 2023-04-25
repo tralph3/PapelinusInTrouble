@@ -282,7 +282,8 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ni688"]
 radius = 133.004
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="RigidBody2D"]
+gravity_scale = 0.0
 script = ExtResource("1_p4tlq")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]

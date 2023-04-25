@@ -2,7 +2,6 @@ extends Node2D
 
 @export var ASTEROID: PackedScene = preload("res://Asteroid/Asteroid.tscn")
 @export var OFFSCREEN_OFFSET = 200
-
 var game_over = false
 
 func _ready():
@@ -30,6 +29,7 @@ func _physics_process(delta):
 	$Player.position.x = clamp($Player.position.x, left_margin, right_margin)
 	$Player.position.y = clamp($Player.position.y, top_margin, bottom_margin)
 
+
 func handle_input():
 	if game_over and Input.is_action_just_pressed("restart"):
 		restart_game()
@@ -41,22 +41,19 @@ func restart_game():
 	$Player.revivir()
 	$Player.position = $PlayerSpawnPoint.position
 
-func spawn_asteroid(level=1):
+func spawn_asteroid():
 	if game_over:
 		return
 	var death_point = $Player.get_random_death_position()
 	var asteroid = instance_asteroid()
+	asteroid.init(death_point)
+	add_child(asteroid)
 	
-
-func instance_asteroid(asteroid_position):
+func instance_asteroid():
 	var instance = ASTEROID.instantiate()
 	instance.add_to_group("asteroids")
-	instance.connect("spawn_child_asteroids", spawn_child_asteroids)
 	instance.position = get_asteroid_spawn_pos()
 	return instance
-
-func spawn_child_asteroids(level, asteroid_position):
-	spawn_asteroid(level - 1)
 
 func get_asteroid_spawn_pos():
 	var resulting_position = Vector2.ZERO
