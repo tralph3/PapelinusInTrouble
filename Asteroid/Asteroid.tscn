@@ -630,6 +630,7 @@ _data = {
 
 [node name="Asteroid" type="RigidBody2D"]
 gravity_scale = 0.0
+contact_monitor = true
 script = ExtResource("1_pbhxd")
 
 [node name="Area2D" type="Area2D" parent="."]

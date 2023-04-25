@@ -1,44 +1,39 @@
 extends RigidBody2D
 
-@export var ROTATION_SPEED = 75000.0
-@export var MAX_SPEED = 5.0
-@export var FRICTION = 0.05
-@export var ACCELERATION = 0.02
-@export var BRAKE_FRICTION = 0.1
+@export var max_velocity = 500.0
+@export var thrust = Vector2(0, 500)
+@export var torque = 2000.0
 @export var MUNITION:  PackedScene = preload("res://Bullet/Bullet.tscn")
 
-var current_speed = 0.0
-var movement_direction = Vector2(cos(rotation - PI/2), sin(rotation - PI/2))
 var can_shoot = true
 var dead = false
 
 signal died
 
-func _ready():
-	$Sprite2D.play("idle")
-
-func _physics_process(delta):
-	if not dead:
-		handle_input(delta)
-		
 func _integrate_forces(state):
-	var current_velocity = state.get_linear_velocity()
-	var new_velocity = clamp(current_velocity, Vector2(-MAX_SPEED, -MAX_SPEED), Vector2(MAX_SPEED, MAX_SPEED))
-	state.set_linear_velocity(new_velocity)
+	var delta = state.step
+	if not dead:
+		handle_input(delta, state)
+	else:
+		state.set_linear_velocity(Vector2.ZERO)
+		state.set_angular_velocity(0.0)
 	
-func handle_input(delta):
-	handle_movement(delta)
+func handle_input(delta, state):
+	handle_movement(delta, state)
 	handle_shoot()
 
-func handle_movement(delta):
-	var rotation_direction = Input.get_axis("rotate_left", "rotate_right")
-	var throttle = Input.get_axis("move_backwards", "move_forwards")
-
-	movement_direction = Vector2(cos(rotation - PI/2), sin(rotation - PI/2))
-	movement_direction *= MAX_SPEED * delta * throttle
-	apply_force(movement_direction*100000)
-	apply_torque(rotation_direction * ROTATION_SPEED * delta)
-
+func handle_movement(delta, state):
+	if Input.is_action_pressed("move_forwards"):
+		apply_force(state.get_total_gravity() + thrust.rotated(rotation + PI))
+	else:
+		apply_force(state.get_total_gravity() + Vector2.ZERO)
+	var torque_direction = Input.get_axis("rotate_left", "rotate_right")
+	var linear_velocity_x = clamp(state.get_linear_velocity().x, -max_velocity, max_velocity)
+	var linear_velocity_y = clamp(state.get_linear_velocity().y, -max_velocity, max_velocity)
+	state.set_linear_velocity(Vector2(linear_velocity_x, linear_velocity_y))
+	print(state.get_linear_velocity())
+	apply_torque(torque * torque_direction)
+		
 func handle_shoot():
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		$ShotCooldown.start()
@@ -64,11 +59,8 @@ func get_random_death_position():
 
 	return Vector2(x, y).normalized() + position
 
-func check_collision(collision: KinematicCollision2D):
-	if not collision:
-		return
-	var node = collision.get_collider()
-	if node.is_in_group("asteroids"):
+func check_collision(body):
+	if body.is_in_group("asteroids"):
 		morir()
 
 func morir():
@@ -76,15 +68,12 @@ func morir():
 	$Hitbox.set_deferred("disabled", true)
 	$HitboxParte2.set_deferred("disabled", true)
 	dead = true
-	$Sprite2D.set_scale(Vector2(1, 1))
-	$Sprite2D.play("explosion")
+	$Sprite2D.hide()
 	$AudioStreamPlayer2D.play()
-	$Sprite2D.connect("animation_finished", $Sprite2D.hide)
 
 func revivir():
 	$Hitbox.set_deferred("disabled", false)
 	$HitboxParte2.set_deferred("disabled", false)
 	dead = false
-	$Sprite2D.set_scale(Vector2(0.05, 0.05))
-	$Sprite2D.play("idle")
+	rotation = 0
 	$Sprite2D.show()
