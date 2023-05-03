@@ -24,6 +24,7 @@ position = Vector2(556, 201)
 
 [node name="SpawnTimer" type="Timer" parent="."]
 process_callback = 0
+autostart = true
 
 [node name="GameOverBanner" type="Sprite2D" parent="."]
 visible = false

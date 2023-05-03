@@ -6,7 +6,6 @@ var game_over = false
 
 func _ready():
 	$Player.connect("died", finish_game)
-	spawn_asteroid()
 	$SpawnTimer.connect("timeout", spawn_asteroid)
 
 func finish_game():

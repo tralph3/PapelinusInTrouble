@@ -5,15 +5,17 @@ var FORCE = 300.0
 var animation_finished = false
 var death_sound_finished = false
 
-func _process(_delta):
+func try_to_die():
 	if animation_finished and death_sound_finished:
 		queue_free()
 
 func set_animation_finished():
 	animation_finished = true
+	try_to_die()
 
 func set_death_sound_finished():
 	death_sound_finished = true
+	try_to_die()
 
 func init(death_point):
 	var direction_vector = position.direction_to(death_point)
