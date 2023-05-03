@@ -6,6 +6,7 @@ var game_over = false
 
 func _ready():
 	$Player.connect("died", finish_game)
+	spawn_asteroid()
 	$SpawnTimer.connect("timeout", spawn_asteroid)
 
 func finish_game():
@@ -38,6 +39,8 @@ func restart_game():
 	$SpawnTimer.start()
 	$GameOverBanner.visible = false
 	game_over = false
+	for asteroid in get_tree().get_nodes_in_group("asteroids"):
+		asteroid.queue_free()
 	$Player.revivir()
 	$Player.position = $PlayerSpawnPoint.position
 

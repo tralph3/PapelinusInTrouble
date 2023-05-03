@@ -31,7 +31,6 @@ func handle_movement(delta, state):
 	var linear_velocity_x = clamp(state.get_linear_velocity().x, -max_velocity, max_velocity)
 	var linear_velocity_y = clamp(state.get_linear_velocity().y, -max_velocity, max_velocity)
 	state.set_linear_velocity(Vector2(linear_velocity_x, linear_velocity_y))
-	print(state.get_linear_velocity())
 	apply_torque(torque * torque_direction)
 		
 func handle_shoot():

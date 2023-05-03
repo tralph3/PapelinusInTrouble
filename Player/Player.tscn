@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c271kwyrgj55y"]
+[gd_scene load_steps=7 format=3 uid="uid://r8tmygx0axyv"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_p4tlq"]
 [ext_resource type="Texture2D" uid="uid://bwa5mq0m3t723" path="res://Player/level2.png" id="2_0s3u7"]
-[ext_resource type="AudioStream" uid="uid://pjvjc7mlpctc" path="res://Player/la_muerte.wav" id="4_bnv8g"]
+[ext_resource type="AudioStream" uid="uid://pjvjc7mlpctc" path="res://Player/player_death.wav" id="3_hexyi"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4odje"]
 height = 20.0
@@ -51,7 +51,7 @@ drag_horizontal_enabled = true
 drag_vertical_enabled = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_bnv8g")
+stream = ExtResource("3_hexyi")
 
 [connection signal="body_entered" from="." to="." method="check_collision"]
 [connection signal="timeout" from="ShotCooldown" to="." method="reset_can_shoot"]
