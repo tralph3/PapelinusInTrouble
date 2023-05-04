@@ -17,10 +17,10 @@ func show_game_over_banner():
 	$GameOverBanner.position = $Player/Camera2D.get_screen_center_position()
 	$GameOverBanner.visible = true
 
-func _process(delta):
+func _process(_delta):
 	handle_input()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var area = $PlayableArea/CollisionShape2D
 	var left_margin = area.global_position.x - area.shape.get_rect().size.x / 2
 	var right_margin = area.global_position.x + area.shape.get_rect().size.x / 2
@@ -28,7 +28,6 @@ func _physics_process(delta):
 	var bottom_margin = area.global_position.y + area.shape.get_rect().size.y / 2
 	$Player.position.x = clamp($Player.position.x, left_margin, right_margin)
 	$Player.position.y = clamp($Player.position.y, top_margin, bottom_margin)
-
 
 func handle_input():
 	if game_over and Input.is_action_just_pressed("restart"):
@@ -53,7 +52,6 @@ func spawn_asteroid():
 	
 func instance_asteroid():
 	var instance = ASTEROID.instantiate()
-	instance.add_to_group("asteroids")
 	instance.position = get_asteroid_spawn_pos()
 	return instance
 

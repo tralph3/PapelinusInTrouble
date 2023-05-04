@@ -11,18 +11,17 @@ var dead = false
 signal died
 
 func _integrate_forces(state):
-	var delta = state.step
 	if not dead:
-		handle_input(delta, state)
+		handle_input(state)
 	else:
 		state.set_linear_velocity(Vector2.ZERO)
 		state.set_angular_velocity(0.0)
 	
-func handle_input(delta, state):
-	handle_movement(delta, state)
+func handle_input(state):
+	handle_movement(state)
 	handle_shoot()
 
-func handle_movement(delta, state):
+func handle_movement(state):
 	if Input.is_action_pressed("move_forwards"):
 		apply_force(state.get_total_gravity() + thrust.rotated(rotation + PI))
 	else:
@@ -49,7 +48,7 @@ func shoot():
 	shot.add_to_group("bullet")
 	shot.position = $Uretra.global_position
 	shot.rotation = global_rotation
-	get_parent().add_child(shot)
+	get_parent().call_deferred("add_child", shot)
 
 func get_random_death_position():
 	var circle = $DeathAura/CollisionShape2D.shape
