@@ -1,6 +1,7 @@
 - Abstraer bala y asteroide para que dependan de la clase base proyectil
-- Dejamos el refactor para spawnear los asteroides chiquitos por la mitad
 - Teletranspotar jugador, dar ilusion de campo de juego infinito
-- DESPEDAZAR objetos
 - Separar interfaz en su propia escena
-- Escudos para asteroides (checkear amazon)
+- No anda el audio de la explosion papa
+- Niveles para chuleta
+- Powerups
+- Arte redesign (hoja cuadriculada, sprites con lapiz)

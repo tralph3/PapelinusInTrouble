@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var ASTEROID: PackedScene = preload("res://Asteroid/Asteroid.tscn")
+@export var SMALL_ASTEROID: PackedScene = preload("res://Asteroid/SmallAsteroid/SmallAsteroid.tscn")
 @export var OFFSCREEN_OFFSET = 200
 var game_over = false
 
@@ -48,8 +49,25 @@ func spawn_asteroid():
 	var death_point = $Player.get_random_death_position()
 	var asteroid = instance_asteroid()
 	asteroid.init(death_point)
+	asteroid.connect("spawn_small_asteroids", spawn_small_asteroids)
 	add_child(asteroid)
-	
+
+func spawn_small_asteroids(position, small_asteroid_amount):
+	for _i in range(small_asteroid_amount):
+		spawn_small_asteroid(position)
+
+func spawn_small_asteroid(position):
+	var small_asteroid_instance = SMALL_ASTEROID.instantiate()
+	var camera_center = $Player/Camera2D.get_screen_center_position()
+	var screen_size_x = get_viewport_rect().size.x
+	var screen_size_y = get_viewport_rect().size.y
+	var random_point_x = randf_range(camera_center.x - screen_size_x / 2, camera_center.x + screen_size_x / 2)
+	var random_point_y = randf_range(camera_center.y - screen_size_y / 2, camera_center.y + screen_size_y / 2)
+	var random_point = Vector2(random_point_x, random_point_y)
+	small_asteroid_instance.position = position
+	small_asteroid_instance.init(random_point)
+	call_deferred("add_child", small_asteroid_instance)
+
 func instance_asteroid():
 	var instance = ASTEROID.instantiate()
 	instance.position = get_asteroid_spawn_pos()
@@ -81,3 +99,8 @@ func get_asteroid_spawn_pos():
 		resulting_position.y = y2
 	
 	return resulting_position
+
+
+func _on_asteroid_kill_area_body_entered(body):
+	if body.is_in_group("asteroids"):
+		body.queue_free()

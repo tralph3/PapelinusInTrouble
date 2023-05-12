@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://rt6ihis2qrb7"]
+[gd_scene load_steps=10 format=3 uid="uid://rt6ihis2qrb7"]
 
 [ext_resource type="Script" path="res://MainScene/MainScene.gd" id="1_gibei"]
 [ext_resource type="Texture2D" uid="uid://com7xpkj07eyu" path="res://MainScene/background.jpg" id="2_gxlxr"]
@@ -8,9 +8,21 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hwuna"]
 size = Vector2(4516, 2968)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7nif2"]
+size = Vector2(1200, 5701)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8swoo"]
+size = Vector2(1322.5, 5542)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qsa5y"]
+size = Vector2(7158.5, 877)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ovec"]
+size = Vector2(6832.5, 1091)
+
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_gibei")
-metadata/_edit_vertical_guides_ = [-474.0, 70.0, 4589.0]
+metadata/_edit_vertical_guides_ = [-486.0, 70.0, 4589.0]
 metadata/_edit_horizontal_guides_ = [-1792.0, 1182.0]
 
 [node name="Background" type="Sprite2D" parent="."]
@@ -41,3 +53,23 @@ position = Vector2(2329, -306)
 shape = SubResource("RectangleShape2D_hwuna")
 disabled = true
 debug_color = Color(0, 0.6, 0.701961, 0.0431373)
+
+[node name="AsteroidKillArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AsteroidKillArea"]
+position = Vector2(-1769, -349.5)
+shape = SubResource("RectangleShape2D_7nif2")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AsteroidKillArea"]
+position = Vector2(5747.75, -334)
+shape = SubResource("RectangleShape2D_8swoo")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="AsteroidKillArea"]
+position = Vector2(2180, -2803.5)
+shape = SubResource("RectangleShape2D_qsa5y")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="AsteroidKillArea"]
+position = Vector2(2007.75, 2426.5)
+shape = SubResource("RectangleShape2D_5ovec")
+
+[connection signal="body_entered" from="AsteroidKillArea" to="." method="_on_asteroid_kill_area_body_entered"]

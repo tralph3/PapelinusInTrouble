@@ -1,9 +1,8 @@
-[gd_scene load_steps=88 format=3 uid="uid://cjexl3pvpsp8p"]
+[gd_scene load_steps=87 format=3 uid="uid://cjexl3pvpsp8p"]
 
 [ext_resource type="Script" path="res://Asteroid/SmallAsteroid/SmallAsteroid.gd" id="1_ya57g"]
 [ext_resource type="Texture2D" uid="uid://bp0m2ey4s7ilm" path="res://Asteroid/asteroid_explosion.png" id="2_sn4qm"]
 [ext_resource type="Texture2D" uid="uid://ccsga8issks1v" path="res://Asteroid/asteroid.png" id="3_yuime"]
-[ext_resource type="AudioStream" uid="uid://dxpocdvxys7pb" path="res://Asteroid/asteroid_explosion.wav" id="4_piqaq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qds4c"]
 radius = 22.9972
@@ -611,9 +610,5 @@ scale = Vector2(0.0273223, 0.0273223)
 sprite_frames = SubResource("SpriteFrames_ji4wp")
 animation = &"idle"
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_piqaq")
-
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="Sprite2D" to="." method="set_animation_finished"]
-[connection signal="finished" from="AudioStreamPlayer2D" to="." method="set_death_sound_finished"]

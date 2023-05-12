@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 @export var max_velocity = 500.0
-@export var thrust = Vector2(0, 500)
+@export var thrust = Vector2(0, 550)
 @export var torque = 2000.0
 @export var MUNITION:  PackedScene = preload("res://Bullet/Bullet.tscn")
 
@@ -31,7 +31,7 @@ func handle_movement(state):
 	var linear_velocity_y = clamp(state.get_linear_velocity().y, -max_velocity, max_velocity)
 	state.set_linear_velocity(Vector2(linear_velocity_x, linear_velocity_y))
 	apply_torque(torque * torque_direction)
-		
+
 func handle_shoot():
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		$ShotCooldown.start()
@@ -45,7 +45,6 @@ func shoot():
 	if not MUNITION:
 		return
 	var shot = MUNITION.instantiate()
-	shot.add_to_group("bullet")
 	shot.position = $Uretra.global_position
 	shot.rotation = global_rotation
 	get_parent().call_deferred("add_child", shot)
@@ -58,7 +57,7 @@ func get_random_death_position():
 	return Vector2(x, y).normalized() + position
 
 func check_collision(body):
-	if body.is_in_group("asteroids"):
+	if body.is_in_group("asteroids") or body.is_in_group("bullet"):
 		morir()
 
 func morir():
@@ -66,12 +65,14 @@ func morir():
 	$Hitbox.set_deferred("disabled", true)
 	$HitboxParte2.set_deferred("disabled", true)
 	dead = true
-	$Sprite2D.hide()
+	$Sprite2D.play("explosion")
+	$Sprite2D.set_scale(Vector2(1, 1))
 	$AudioStreamPlayer2D.play()
 
 func revivir():
 	$Hitbox.set_deferred("disabled", false)
 	$HitboxParte2.set_deferred("disabled", false)
+	$Sprite2D.set_scale(Vector2(0.05, 0.05))
 	dead = false
 	rotation = 0
-	$Sprite2D.show()
+	$Sprite2D.play("idle")

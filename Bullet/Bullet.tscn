@@ -7,7 +7,7 @@
 radius = 4.0
 height = 24.0
 
-[node name="Bullet" type="RigidBody2D"]
+[node name="Bullet" type="RigidBody2D" groups=["bullet"]]
 gravity_scale = 0.0
 max_contacts_reported = 1
 contact_monitor = true
