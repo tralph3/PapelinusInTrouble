@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmolmhhvh5orl"
-path="res://.godot/imported/game_over.png-e247916f3df6d649adb603205dfbb7b3.ctex"
+uid="uid://ct0qen8p4qpyf"
+path="res://.godot/imported/nave.png-a48a7be5b4316eba86e8919e0988d7ef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MainScene/game_over.png"
-dest_files=["res://.godot/imported/game_over.png-e247916f3df6d649adb603205dfbb7b3.ctex"]
+source_file="res://Player/nave.png"
+dest_files=["res://.godot/imported/nave.png-a48a7be5b4316eba86e8919e0988d7ef.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmolmhhvh5orl"
-path="res://.godot/imported/game_over.png-e247916f3df6d649adb603205dfbb7b3.ctex"
+uid="uid://d2ajb3s806om7"
+path="res://.godot/imported/explosion.004.png-3fdfd6c0cb54a6e21e5dcac63c0484bb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MainScene/game_over.png"
-dest_files=["res://.godot/imported/game_over.png-e247916f3df6d649adb603205dfbb7b3.ctex"]
+source_file="res://Asteroid/explosion_frames/explosion.004.png"
+dest_files=["res://.godot/imported/explosion.004.png-3fdfd6c0cb54a6e21e5dcac63c0484bb.ctex"]
 
 [params]
 

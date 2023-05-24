@@ -3,7 +3,6 @@ extends "res://Asteroid/Asteroid.gd"
 func explode():
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.play("explode")
-	$Sprite2D.set_scale(Vector2(1.5, 1.5))
 	play_explosion_sound()
 
 func init(death_point):

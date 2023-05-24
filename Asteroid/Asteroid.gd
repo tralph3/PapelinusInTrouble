@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-const FORCE = 300.0
+const FORCE = 200.0
 
 # si spawneamos los asteroides chiquitos adentro
 # de este, este nodo necesita acceder a la
@@ -54,13 +54,11 @@ func play_explosion_sound():
 	audio_stream.stream = preload("res://Asteroid/asteroid_explosion.wav")
 	audio_stream.autoplay = true
 	audio_stream.connect("finished", audio_stream.queue_free)
-	audio_stream.volume_db += 20
 	get_parent().add_child(audio_stream)
 
 func explode():
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.play("explode")
-	$Sprite2D.set_scale(Vector2(1.5, 1.5))
 	play_explosion_sound()
 	for shield in shields:
 		if shield != null and not shield.is_queued_for_deletion():

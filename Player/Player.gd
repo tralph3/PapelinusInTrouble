@@ -63,16 +63,12 @@ func check_collision(body):
 func morir():
 	emit_signal("died")
 	$Hitbox.set_deferred("disabled", true)
-	$HitboxParte2.set_deferred("disabled", true)
 	dead = true
 	$Sprite2D.play("explosion")
-	$Sprite2D.set_scale(Vector2(1, 1))
 	$AudioStreamPlayer2D.play()
 
 func revivir():
 	$Hitbox.set_deferred("disabled", false)
-	$HitboxParte2.set_deferred("disabled", false)
-	$Sprite2D.set_scale(Vector2(0.05, 0.05))
 	dead = false
 	rotation = 0
 	$Sprite2D.play("idle")

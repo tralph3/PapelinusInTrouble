@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://hvm1rbnbam2q"]
 
 [ext_resource type="Script" path="res://Asteroid/AsteroidShield/AsteroidShield.gd" id="1_16as8"]
-[ext_resource type="Texture2D" uid="uid://q74whxtu6uvb" path="res://Asteroid/AsteroidShield/Shield.png" id="1_slg4f"]
+[ext_resource type="Texture2D" uid="uid://cw7bprpbgv2f7" path="res://Asteroid/AsteroidShield/escudo.png" id="2_tqwwu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lfkhh"]
 bounce = 5.0
@@ -12,15 +12,16 @@ script = ExtResource("1_16as8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-0.499999, 3)
-scale = Vector2(0.0851393, 0.0595041)
-texture = ExtResource("1_slg4f")
+rotation = 3.14159
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_tqwwu")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(25, 0, -25, 0, 0, 12)
+polygon = PackedVector2Array(20, -4, -18, -4, -11, 5, 0, 9, 13, 4)
 
 [node name="Area2D" type="Area2D" parent="."]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PackedVector2Array(25, 0, -25, 0, 0, 12)
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(20, -4, -18, -4, -11, 5, 0, 9, 13, 4)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
