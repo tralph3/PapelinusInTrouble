@@ -17,6 +17,8 @@ func finish_game():
 func show_game_over_banner():
 	$GameOverBanner.position = $Player/Camera2D.get_screen_center_position()
 	$GameOverBanner.visible = true
+	$GameOverBanner.stop()
+	$GameOverBanner.play_backwards("default")
 
 func _process(_delta):
 	handle_input()
