@@ -9,6 +9,7 @@ height = 24.0
 
 [node name="Bullet" type="RigidBody2D" groups=["bullet"]]
 gravity_scale = 0.0
+continuous_cd = 2
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource("1_r1nsa")
@@ -20,5 +21,3 @@ shape = SubResource("CapsuleShape2D_j1swi")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -11)
 texture = ExtResource("2_y7ik8")
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

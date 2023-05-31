@@ -11,6 +11,7 @@ var dead = false
 signal died
 
 func _integrate_forces(state):
+	print(global_position)
 	if not dead:
 		handle_input(state)
 	else:

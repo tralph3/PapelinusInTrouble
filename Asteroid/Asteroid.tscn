@@ -16,7 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://b4wgdlg2bv83x" path="res://Asteroid/explosion_frames/explosion.013.png" id="13_xwtot"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_y6dug"]
-load_path = "res://.godot/imported/explosion.014.png-ebd27ca8c8f9ecf83d6da0cecd318857.ctex"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ji4wp"]
 animations = [{
@@ -101,6 +100,9 @@ polygon = PackedVector2Array(9.26145, 31.7368, 32.5777, 7.98074, 26.5959, -18.34
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldSpawnArea"]
 shape = SubResource("CircleShape2D_lapoq")
 debug_color = Color(0.694118, 0.490196, 0.156863, 0.419608)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(0, 0, 0, 0)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="Sprite2D" to="." method="set_animation_finished"]

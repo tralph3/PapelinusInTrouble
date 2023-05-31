@@ -75,7 +75,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ni688"]
 radius = 133.004
 
-[node name="Player" type="RigidBody2D"]
+[node name="Player" type="RigidBody2D" groups=["player"]]
 center_of_mass_mode = 1
 gravity_scale = 0.0
 max_contacts_reported = 1
@@ -88,6 +88,7 @@ position = Vector2(0, 16)
 polygon = PackedVector2Array(21, 17, -22, 17, -1, -48)
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
 position = Vector2(0.5, 0)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_dxu34")
@@ -106,12 +107,11 @@ wait_time = 0.4
 shape = SubResource("CircleShape2D_ni688")
 debug_color = Color(0.945098, 0.176471, 0.196078, 0.419608)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-drag_horizontal_enabled = true
-drag_vertical_enabled = true
-
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_hexyi")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(0, 0, 0, 0)
 
 [connection signal="body_entered" from="." to="." method="check_collision"]
 [connection signal="timeout" from="ShotCooldown" to="." method="reset_can_shoot"]

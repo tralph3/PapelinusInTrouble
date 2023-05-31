@@ -10,9 +10,18 @@ config_version=5
 
 [application]
 
-config/name="Copia Sinvergüenza"
+config/name="Asteroids"
 run/main_scene="res://MainScene/MainScene.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
+
+[display]
+
+window/size/viewport_width=2500
+window/size/viewport_height=2500
+window/size/initial_position_type=0
+window/size/resizable=false
+window/size/window_width_override=1280
+window/size/window_height_override=720
 
 [input]
 
