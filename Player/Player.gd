@@ -8,10 +8,19 @@ extends RigidBody2D
 var can_shoot = true
 var dead = false
 
+var PLAYABLE_AREA_WIDTH = ProjectSettings.get_setting("global/PlayableAreaWidth")
+var PLAYABLE_AREA_HEIGHT = ProjectSettings.get_setting("global/PlayableAreaHeight")
+
 signal died
 
+func _ready():
+	$Camera2D.limit_top = 0
+	$Camera2D.limit_left = 0
+	$Camera2D.limit_bottom = PLAYABLE_AREA_HEIGHT
+	$Camera2D.limit_right = PLAYABLE_AREA_WIDTH
+	position = Vector2(PLAYABLE_AREA_WIDTH/2, PLAYABLE_AREA_HEIGHT/2)
+
 func _integrate_forces(state):
-	print(global_position)
 	if not dead:
 		handle_input(state)
 	else:
@@ -32,12 +41,19 @@ func handle_movement(state):
 	var linear_velocity_y = clamp(state.get_linear_velocity().y, -max_velocity, max_velocity)
 	state.set_linear_velocity(Vector2(linear_velocity_x, linear_velocity_y))
 	apply_torque(torque * torque_direction)
+	wrap_player_position(state)
 
 func handle_shoot():
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		$ShotCooldown.start()
 		can_shoot = false
 		shoot()
+
+func wrap_player_position(state):
+	if not (state.transform.origin.x <= PLAYABLE_AREA_WIDTH and state.transform.origin.x >= 0 and state.transform.origin.y <= PLAYABLE_AREA_HEIGHT and state.transform.origin.y >= 0):
+		play_teleport_sound()
+	state.transform.origin.x = fposmod(state.transform.origin.x, PLAYABLE_AREA_WIDTH)
+	state.transform.origin.y = fposmod(state.transform.origin.y, PLAYABLE_AREA_HEIGHT)
 
 func reset_can_shoot():
 	can_shoot = true
@@ -60,6 +76,13 @@ func get_random_death_position():
 func check_collision(body):
 	if body.is_in_group("asteroids") or body.is_in_group("bullet"):
 		morir()
+
+func play_teleport_sound():
+	var audio_stream = AudioStreamPlayer.new()
+	audio_stream.stream = preload("res://Player/teleport.wav")
+	audio_stream.autoplay = true
+	audio_stream.connect("finished", audio_stream.queue_free)
+	get_parent().add_child(audio_stream)
 
 func morir():
 	emit_signal("died")

@@ -78,7 +78,7 @@ radius = 50.0
 [node name="Asteroid" type="RigidBody2D" groups=["asteroids"]]
 mass = 1000.0
 gravity_scale = 0.0
-max_contacts_reported = 1
+max_contacts_reported = 2
 contact_monitor = true
 script = ExtResource("1_pbhxd")
 
@@ -91,6 +91,7 @@ frame = 12
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+z_as_relative = false
 position = Vector2(2, -2)
 rotation = 1.7942
 polygon = PackedVector2Array(9.26145, 31.7368, 32.5777, 7.98074, 26.5959, -18.3483, -4.47465, -28.7224, -26.8158, -5.18789, -21.277, 19.1908)
@@ -105,4 +106,3 @@ debug_color = Color(0.694118, 0.490196, 0.156863, 0.419608)
 rect = Rect2(0, 0, 0, 0)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="animation_finished" from="Sprite2D" to="." method="set_animation_finished"]

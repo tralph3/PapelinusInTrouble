@@ -73,10 +73,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="SmallAsteroid" type="RigidBody2D" groups=["asteroids"]]
+[node name="SmallAsteroid" type="RigidBody2D" groups=["small_asteroids"]]
 mass = 500.0
 gravity_scale = 0.0
-max_contacts_reported = 1
+max_contacts_reported = 2
 contact_monitor = true
 script = ExtResource("1_ya57g")
 

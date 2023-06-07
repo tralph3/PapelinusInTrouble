@@ -10,22 +10,22 @@ signal spawn_small_asteroids(position, small_asteroids_amount)
 var small_asteroid: PackedScene = load("res://Asteroid/SmallAsteroid/SmallAsteroid.tscn")
 var shield: PackedScene = load("res://Asteroid/AsteroidShield/AsteroidShield.tscn")
 
+var PLAYABLE_AREA_WIDTH = ProjectSettings.get_setting("global/PlayableAreaWidth")
+var PLAYABLE_AREA_HEIGHT = ProjectSettings.get_setting("global/PlayableAreaHeight")
+var MARGIN = 300
+
 var small_asteroids_to_spawn_on_death = randi_range(1, 4)
 
 @export var shield_spawn_probability = 0.3
 
-var animation_finished = false
-var death_sound_finished = false
-
 var shields = []
 
-func try_to_die():
-	if animation_finished and death_sound_finished:
-		queue_free()
+func _integrate_forces(state):
+	delete_when_out_of_bounds(state)
 
-func set_animation_finished():
-	animation_finished = true
-	try_to_die()
+func delete_when_out_of_bounds(state):
+	if not (state.transform.origin.x <= PLAYABLE_AREA_WIDTH + MARGIN and state.transform.origin.x >= -MARGIN and state.transform.origin.y <= PLAYABLE_AREA_HEIGHT + MARGIN and state.transform.origin.y >= -MARGIN):
+		queue_free()
 
 func spawn_shield():
 	var spawn_radius = $ShieldSpawnArea/CollisionShape2D.shape.radius
@@ -37,20 +37,17 @@ func spawn_shield():
 	shields.append(new_shield)
 	add_child(new_shield)
 
-func set_death_sound_finished():
-	death_sound_finished = true
-	try_to_die()
-
 func init(death_point):
 	var direction_vector = position.direction_to(death_point)
 	$Sprite2D.set_animation("idle")
+	$Sprite2D.connect("animation_finished", queue_free)
 	apply_impulse(direction_vector * FORCE)
 	if randf_range(0, 1) <= shield_spawn_probability:
 		spawn_shield()
 	angular_velocity = randi_range(-6, 6)
 
 func play_explosion_sound():
-	var audio_stream = AudioStreamPlayer2D.new()
+	var audio_stream = AudioStreamPlayer.new()
 	audio_stream.stream = preload("res://Asteroid/asteroid_explosion.wav")
 	audio_stream.autoplay = true
 	audio_stream.connect("finished", audio_stream.queue_free)

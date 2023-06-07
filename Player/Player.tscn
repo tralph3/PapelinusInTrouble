@@ -78,12 +78,13 @@ radius = 133.004
 [node name="Player" type="RigidBody2D" groups=["player"]]
 center_of_mass_mode = 1
 gravity_scale = 0.0
-max_contacts_reported = 1
+max_contacts_reported = 2
 contact_monitor = true
 script = ExtResource("1_p4tlq")
 torque = 4000.0
 
 [node name="Hitbox" type="CollisionPolygon2D" parent="."]
+z_as_relative = false
 position = Vector2(0, 16)
 polygon = PackedVector2Array(21, 17, -22, 17, -1, -48)
 
@@ -105,13 +106,17 @@ wait_time = 0.4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathAura"]
 shape = SubResource("CircleShape2D_ni688")
-debug_color = Color(0.945098, 0.176471, 0.196078, 0.419608)
+debug_color = Color(0.2, 0.6, 0.533333, 0.419608)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_hexyi")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-rect = Rect2(0, 0, 0, 0)
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
 
 [connection signal="body_entered" from="." to="." method="check_collision"]
 [connection signal="timeout" from="ShotCooldown" to="." method="reset_can_shoot"]

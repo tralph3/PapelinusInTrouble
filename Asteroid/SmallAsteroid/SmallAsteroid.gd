@@ -8,5 +8,6 @@ func explode():
 func init(death_point):
 	var direction_vector = position.direction_to(death_point)
 	$Sprite2D.set_animation("idle")
+	$Sprite2D.connect("animation_finished", queue_free)
 	apply_impulse(direction_vector * FORCE)
 	angular_velocity = randi_range(-6, 6)
