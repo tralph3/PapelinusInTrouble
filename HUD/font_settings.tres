@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://b8o1e88ydadm"]
+
+[ext_resource type="FontFile" uid="uid://bfhar3046d08w" path="res://HUD/altfont.ttf" id="1_eepnn"]
+
+[resource]
+resource_local_to_scene = true
+font = ExtResource("1_eepnn")
+font_size = 40
+font_color = Color(0.203922, 0.203922, 0.203922, 1)
+shadow_size = 0

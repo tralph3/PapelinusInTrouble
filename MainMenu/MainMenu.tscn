@@ -1,0 +1,99 @@
+[gd_scene load_steps=7 format=3 uid="uid://buc3buy85nwp5"]
+
+[ext_resource type="Script" path="res://MainMenu/MainMenu.gd" id="1_vaa1q"]
+[ext_resource type="Texture2D" uid="uid://cmgot07kcdule" path="res://paper3_5.png" id="1_wcs6y"]
+[ext_resource type="FontFile" uid="uid://bfhar3046d08w" path="res://HUD/altfont.ttf" id="3_2w6ma"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_t34i5"]
+resource_local_to_scene = true
+font = ExtResource("3_2w6ma")
+font_size = 100
+font_color = Color(0.203922, 0.203922, 0.203922, 1)
+shadow_size = 0
+
+[sub_resource type="Theme" id="Theme_iljgg"]
+default_font = ExtResource("3_2w6ma")
+default_font_size = 50
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y1t3n"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vaa1q")
+
+[node name="Background" type="TextureRect" parent="."]
+texture_repeat = 2
+layout_mode = 0
+offset_left = -3199.0
+offset_top = -2546.0
+offset_right = 4492.0
+offset_bottom = 3236.0
+texture = ExtResource("1_wcs6y")
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -260.0
+offset_right = 260.0
+offset_bottom = 240.0
+grow_horizontal = 2
+text = "Papelinus in Trouble"
+label_settings = SubResource("LabelSettings_t34i5")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Start" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.5
+offset_top = -52.0
+offset_right = 154.5
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_iljgg")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.258824, 0.258824, 0.258824, 0.976471)
+theme_override_colors/font_hover_color = Color(0.67451, 0.164706, 0.286275, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_y1t3n")
+text = "Start"
+flat = true
+
+[node name="Quit" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -154.5
+offset_top = -104.0
+offset_right = 154.5
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_iljgg")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.258824, 0.258824, 0.258824, 0.976471)
+theme_override_colors/font_hover_color = Color(0.67451, 0.164706, 0.286275, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_y1t3n")
+text = "Quit"
+flat = true
+
+[connection signal="pressed" from="Start" to="." method="start_the_game_already"]
+[connection signal="pressed" from="Quit" to="." method="quit"]

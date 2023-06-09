@@ -16,6 +16,7 @@ var MARGIN = 300
 
 var small_asteroids_to_spawn_on_death = randi_range(1, 4)
 
+@export var score = 300
 @export var shield_spawn_probability = 0.3
 
 var shields = []
@@ -54,6 +55,7 @@ func play_explosion_sound():
 	get_parent().add_child(audio_stream)
 
 func explode():
+	Signals.emit_signal("increase_score", score)
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.play("explode")
 	play_explosion_sound()

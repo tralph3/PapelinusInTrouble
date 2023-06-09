@@ -530,6 +530,10 @@ stretch_mode = 1
 [node name="Player" parent="." instance=ExtResource("2_h85fu")]
 position = Vector2(556, 201)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="Player"]
+
+[node name="HUD" parent="Player/CanvasLayer" instance=ExtResource("129_kfe7j")]
+
 [node name="GameOverBanner" type="AnimatedSprite2D" parent="."]
 visible = false
 scale = Vector2(2, 2)
@@ -544,4 +548,7 @@ autostart = true
 [node name="PlayerSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(754, 195)
 
-[node name="HUD" parent="." instance=ExtResource("129_kfe7j")]
+[node name="PowerupSpawn" type="Timer" parent="."]
+wait_time = 1.005
+
+[connection signal="timeout" from="PowerupSpawn" to="." method="spawn_powerup"]

@@ -118,5 +118,10 @@ position_smoothing_speed = 10.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 
+[node name="PowerupTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [connection signal="body_entered" from="." to="." method="check_collision"]
 [connection signal="timeout" from="ShotCooldown" to="." method="reset_can_shoot"]
+[connection signal="timeout" from="PowerupTimer" to="." method="powerup_timeout"]

@@ -1,17 +1,20 @@
 extends Node2D
 
+var METRALLETA_POWERUP: PackedScene = preload("res://Powerups/Metralleta/Metralleta.tscn")
+
 @export var ASTEROID: PackedScene = preload("res://Asteroid/Asteroid.tscn")
 @export var SMALL_ASTEROID: PackedScene = preload("res://Asteroid/SmallAsteroid/SmallAsteroid.tscn")
 @export var OFFSCREEN_OFFSET: int = 200
 var PLAYABLE_AREA_WIDTH = ProjectSettings.get_setting("global/PlayableAreaWidth")
 var PLAYABLE_AREA_HEIGHT = ProjectSettings.get_setting("global/PlayableAreaHeight")
-const MAX_ASTEROIDS_IN_SCENE = 30
+const MAX_ASTEROIDS_IN_SCENE = 3000
 var game_over = false
 
 func _ready():
 	$Player.connect("died", finish_game)
 	$SpawnTimer.connect("timeout", spawn_asteroid)
 	$PlayerSpawnPoint.position = Vector2(PLAYABLE_AREA_WIDTH/2, PLAYABLE_AREA_HEIGHT/2)
+	setup_powerup_timer()
 
 func finish_game():
 	game_over = true
@@ -30,18 +33,37 @@ func _process(_delta):
 func handle_input():
 	if game_over and Input.is_action_just_pressed("restart"):
 		restart_game()
+	if Input.is_action_pressed("open_menu"):
+		get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
+
+func setup_powerup_timer():
+	var timer_length = randi_range(10, 30)
+	$PowerupSpawn.stop()
+	$PowerupSpawn.wait_time = timer_length
+	$PowerupSpawn.start()
+
+func spawn_powerup():
+	var powerup_spawnpos = Vector2(randi_range(0, PLAYABLE_AREA_WIDTH), 0)
+	var powerup = METRALLETA_POWERUP.instantiate()
+	powerup.position = powerup_spawnpos
+	add_child(powerup)
+	setup_powerup_timer()
 
 func restart_game():
+	Signals.emit_signal("set_score", 0)
+	setup_powerup_timer()
+	$Player.powerup_timeout()
 	$SpawnTimer.start()
 	$GameOverBanner.visible = false
 	game_over = false
-	delete_all_asteroids()
+	delete_all_game_objects()
 	$Player.revivir()
 	$Player.position = $PlayerSpawnPoint.position
 
-func delete_all_asteroids():
+func delete_all_game_objects():
 	get_tree().call_group("asteroids", "queue_free")
 	get_tree().call_group("small_asteroids", "queue_free")
+	get_tree().call_group("powerups", "queue_free")
 
 func spawn_asteroid():
 	var asteroid_count = len(get_tree().get_nodes_in_group("asteroids"))
@@ -100,11 +122,3 @@ func get_asteroid_spawn_pos():
 		resulting_position.y = y2
 	
 	return resulting_position
-
-
-func _on_asteroid_kill_area_body_entered(body):
-	if body.is_in_group("asteroids"):
-		body.queue_free()
-	elif body.is_in_group("player"):
-		print("heeer")
-		body.position -= Vector2(1000, 0)

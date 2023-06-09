@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://nt4dyog6mr1l"]
+
+[ext_resource type="Texture2D" uid="uid://cvpwecllgosmk" path="res://Powerups/Metralleta/metralleta.001.png" id="1_h7c4g"]
+[ext_resource type="Texture2D" uid="uid://dxmg2g0ixhwdk" path="res://Powerups/Metralleta/metralleta.002.png" id="2_phshy"]
+[ext_resource type="Script" path="res://Powerups/Metralleta/Metralleta.gd" id="3_5ugq4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o2fw1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_h7c4g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_phshy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[node name="Metralleta" type="AnimatedSprite2D" groups=["powerups"]]
+position = Vector2(-4, 8)
+scale = Vector2(0.447626, 0.447626)
+sprite_frames = SubResource("SpriteFrames_o2fw1")
+frame_progress = 0.333628
+script = ExtResource("3_5ugq4")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(31, 21, -15, 21, -36, -25, 3, -54, 42, -23)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

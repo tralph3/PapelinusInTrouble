@@ -1,6 +1,10 @@
 extends "res://Asteroid/Asteroid.gd"
 
+
+@export var small_score = 100
+
 func explode():
+	Signals.emit_signal("increase_score", small_score)
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.play("explode")
 	play_explosion_sound()

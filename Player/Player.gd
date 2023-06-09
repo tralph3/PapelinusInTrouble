@@ -44,7 +44,7 @@ func handle_movement(state):
 	wrap_player_position(state)
 
 func handle_shoot():
-	if Input.is_action_just_pressed("shoot") and can_shoot:
+	if Input.is_action_pressed("shoot") and can_shoot:
 		$ShotCooldown.start()
 		can_shoot = false
 		shoot()
@@ -74,7 +74,7 @@ func get_random_death_position():
 	return Vector2(x, y).normalized() + position
 
 func check_collision(body):
-	if body.is_in_group("asteroids") or body.is_in_group("bullet"):
+	if body.is_in_group("asteroids") or body.is_in_group("small_asteroids") or body.is_in_group("bullet"):
 		morir()
 
 func play_teleport_sound():
@@ -96,3 +96,6 @@ func revivir():
 	dead = false
 	rotation = 0
 	$Sprite2D.play("idle")
+
+func powerup_timeout():
+	$ShotCooldown.wait_time = 0.4
