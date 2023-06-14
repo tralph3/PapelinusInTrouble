@@ -5,8 +5,9 @@ func _ready():
 	Signals.connect("set_score", set_score)
 
 func set_score(score):
-	$ScoreCounter.text = str(score)
+	Globals.set_score(score)
+	$ScoreCounter.text = str(Globals.get_score())
 
 func add_to_score(score):
-	var current_score = int($ScoreCounter.text)
-	$ScoreCounter.text = str(current_score + score)
+	Globals.set_score(Globals.get_score() + score)
+	$ScoreCounter.text = str(Globals.get_score())

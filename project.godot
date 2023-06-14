@@ -18,6 +18,9 @@ config/features=PackedStringArray("4.0", "Forward Plus")
 
 Signals="*res://signals.gd"
 BackgroundMusic="*res://background_music.tscn"
+Algebra="*res://libs/algebra.gd"
+Globals="*res://globals.gd"
+Difficulty="*res://libs/difficulty.gd"
 
 [display]
 

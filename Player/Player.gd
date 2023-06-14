@@ -64,6 +64,7 @@ func shoot():
 	var shot = MUNITION.instantiate()
 	shot.position = $Uretra.global_position
 	shot.rotation = global_rotation
+	shot.set_initial_positions(position, shot.position)
 	get_parent().call_deferred("add_child", shot)
 
 func get_random_death_position():

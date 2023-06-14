@@ -7,14 +7,21 @@ var METRALLETA_POWERUP: PackedScene = preload("res://Powerups/Metralleta/Metrall
 @export var OFFSCREEN_OFFSET: int = 200
 var PLAYABLE_AREA_WIDTH = ProjectSettings.get_setting("global/PlayableAreaWidth")
 var PLAYABLE_AREA_HEIGHT = ProjectSettings.get_setting("global/PlayableAreaHeight")
-const MAX_ASTEROIDS_IN_SCENE = 3000
 var game_over = false
 
 func _ready():
 	$Player.connect("died", finish_game)
 	$SpawnTimer.connect("timeout", spawn_asteroid)
 	$PlayerSpawnPoint.position = Vector2(PLAYABLE_AREA_WIDTH/2, PLAYABLE_AREA_HEIGHT/2)
+	Signals.connect("increase_score", update_timer)
+	Difficulty.update_difficulty_settings()
+	update_timer(null)
 	setup_powerup_timer()
+
+func update_timer(_score):
+	$SpawnTimer.stop()
+	$SpawnTimer.wait_time = Globals.settings["asteroid_spawn_time"]
+	$SpawnTimer.start()
 
 func finish_game():
 	game_over = true
@@ -51,6 +58,7 @@ func spawn_powerup():
 
 func restart_game():
 	Signals.emit_signal("set_score", 0)
+	update_timer(null)
 	setup_powerup_timer()
 	$Player.powerup_timeout()
 	$SpawnTimer.start()
@@ -67,7 +75,8 @@ func delete_all_game_objects():
 
 func spawn_asteroid():
 	var asteroid_count = len(get_tree().get_nodes_in_group("asteroids"))
-	if game_over or asteroid_count >= MAX_ASTEROIDS_IN_SCENE:
+	print(asteroid_count)
+	if game_over or asteroid_count >= Globals.settings["asteroid_limit"]:
 		return
 	var death_point = $Player.get_random_death_position()
 	var asteroid = instance_asteroid()
@@ -75,19 +84,15 @@ func spawn_asteroid():
 	asteroid.connect("spawn_small_asteroids", spawn_small_asteroids)
 	add_child(asteroid)
 
-func spawn_small_asteroids(position, small_asteroid_amount):
+func spawn_small_asteroids(asteroid_position, small_asteroid_amount, latest_bullet_positions):
 	for _i in range(small_asteroid_amount):
-		spawn_small_asteroid(position)
+		spawn_small_asteroid(asteroid_position, latest_bullet_positions)
 
-func spawn_small_asteroid(position):
+func spawn_small_asteroid(asteroid_position, latest_bullet_positions):
+	var director_vector = latest_bullet_positions[1] - latest_bullet_positions[0]
 	var small_asteroid_instance = SMALL_ASTEROID.instantiate()
-	var camera_center = $Player/Camera2D.get_screen_center_position()
-	var screen_size_x = get_viewport_rect().size.x
-	var screen_size_y = get_viewport_rect().size.y
-	var random_point_x = randf_range(camera_center.x - screen_size_x / 2, camera_center.x + screen_size_x / 2)
-	var random_point_y = randf_range(camera_center.y - screen_size_y / 2, camera_center.y + screen_size_y / 2)
-	var random_point = Vector2(random_point_x, random_point_y)
-	small_asteroid_instance.position = position
+	var random_point = Algebra.get_random_point_near_line(asteroid_position, director_vector)
+	small_asteroid_instance.position = asteroid_position
 	small_asteroid_instance.init(random_point)
 	call_deferred("add_child", small_asteroid_instance)
 

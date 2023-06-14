@@ -1,11 +1,11 @@
 extends RigidBody2D
 
-const FORCE = 200.0
+var FORCE = randf_range(Globals.settings["initial_asteroid_impulse_range"][0], Globals.settings["initial_asteroid_impulse_range"][1])
 
 # si spawneamos los asteroides chiquitos adentro
 # de este, este nodo necesita acceder a la
 # camara del jugador y es un quilombo
-signal spawn_small_asteroids(position, small_asteroids_amount)
+signal spawn_small_asteroids(position, small_asteroids_amount, last_bullet_positions)
 
 var small_asteroid: PackedScene = load("res://Asteroid/SmallAsteroid/SmallAsteroid.tscn")
 var shield: PackedScene = load("res://Asteroid/AsteroidShield/AsteroidShield.tscn")
@@ -14,10 +14,10 @@ var PLAYABLE_AREA_WIDTH = ProjectSettings.get_setting("global/PlayableAreaWidth"
 var PLAYABLE_AREA_HEIGHT = ProjectSettings.get_setting("global/PlayableAreaHeight")
 var MARGIN = 300
 
-var small_asteroids_to_spawn_on_death = randi_range(1, 4)
+var small_asteroids_to_spawn_on_death = randi_range(Globals.settings["small_asteroid_range"][0], Globals.settings["small_asteroid_range"][1])
 
 @export var score = 300
-@export var shield_spawn_probability = 0.3
+var shield_spawn_probability = Globals.settings["asteroid_shield_chance"]
 
 var shields = []
 
@@ -54,7 +54,7 @@ func play_explosion_sound():
 	audio_stream.connect("finished", audio_stream.queue_free)
 	get_parent().add_child(audio_stream)
 
-func explode():
+func explode(latest_bullet_positions):
 	Signals.emit_signal("increase_score", score)
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.play("explode")
@@ -62,10 +62,10 @@ func explode():
 	for shield in shields:
 		if shield != null and not shield.is_queued_for_deletion():
 			shield.queue_free()
-	emit_signal("spawn_small_asteroids", position, small_asteroids_to_spawn_on_death)
+	emit_signal("spawn_small_asteroids", position, small_asteroids_to_spawn_on_death, latest_bullet_positions)
 
 func _on_body_entered(body):
 	if not body.is_in_group("bullet"):
 		return
 	body.queue_free()
-	explode()
+	explode(body.get_latest_positions())
