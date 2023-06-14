@@ -75,7 +75,6 @@ func delete_all_game_objects():
 
 func spawn_asteroid():
 	var asteroid_count = len(get_tree().get_nodes_in_group("asteroids"))
-	print(asteroid_count)
 	if game_over or asteroid_count >= Globals.settings["asteroid_limit"]:
 		return
 	var death_point = $Player.get_random_death_position()
